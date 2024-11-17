@@ -35,14 +35,20 @@ class EffectsManager : public ITaskManager {
     void update(void);
     void cleanup(void);
 
+    uint32_t count(void) {return m_effects.count();}
   protected:
     ArrayList<EffectBase *> m_effects;
 };
 
 class EffectManager : public EffectsManager {
   public:
+    EffectManager(uint32_t refresh_rate = 60, BaseType_t core = 1);
     EffectManager(EffectBase *effect, uint32_t refresh_rate = 60,
                   BaseType_t core = 1);
+    void update(void);
+    void setActive(uint32_t index);
+  private:
+    uint32_t m_active;
 };
 
 class HeatBase : public EffectBase {

@@ -33,11 +33,22 @@ void EffectsManager::cleanup() {}
 /******************************************************************************
  * Effectmanager
  ******************************************************************************/
+EffectManager::EffectManager(uint32_t refresh_rate, BaseType_t core)
+    : EffectsManager(1, refresh_rate, core), m_active(0) {}
+
 EffectManager::EffectManager(EffectBase *effect, uint32_t refresh_rate,
                              BaseType_t core)
-    : EffectsManager(1, refresh_rate, core) {
+    : EffectsManager(1, refresh_rate, core), m_active(0) {
     this->AddEffect(effect);
 }
+
+void EffectManager::update(void) {
+    if (this->m_active < this->m_effects.count()) {
+        this->m_effects[this->m_active]->update();
+    }
+}
+
+void EffectManager::setActive(uint32_t index) { this->m_active = index; }
 
 /******************************************************************************
  * EffectBase
